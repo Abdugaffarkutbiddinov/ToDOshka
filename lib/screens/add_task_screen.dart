@@ -1,9 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoshka/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String? taskValue;
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -21,10 +24,19 @@ class AddTaskScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 30.0, color: Colors.pinkAccent),
             ),
-            TextField(autofocus: true, textAlign: TextAlign.center),
+            TextField(
+              autofocus: true,
+              textAlign: TextAlign.center,
+              onChanged: (newValue) {
+                taskValue = newValue;
+              },
+            ),
             FlatButton(
               color: Colors.pinkAccent,
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<TaskData>(context,listen: false).addTaskData(taskValue!);
+                Navigator.pop(context);
+              },
               child: Text(
                 'Add',
                 style: TextStyle(color: Colors.white),

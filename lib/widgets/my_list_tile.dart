@@ -1,42 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoshka/models/task_data.dart';
 
-class MyListTile extends StatefulWidget {
-  @override
-  _MyListTileState createState() => _MyListTileState();
-}
-
-class _MyListTileState extends State<MyListTile> {
-  bool isChecked = true;
+class MyListTile extends StatelessWidget {
+  final bool isChecked;
+  final String taskName;
+  final Function(bool?)? checkboxCallback;
+  final Function()? longPress;
+  MyListTile({required this.isChecked, required this.taskName, required this.checkboxCallback, required this.longPress});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'bread',
+        taskName,
         style: TextStyle(
             decoration: isChecked ? TextDecoration.lineThrough : null),
       ),
-      trailing: TaskCheckbox(isChecked, (bool? checkboxState) {
-        setState(() {
-          isChecked = checkboxState!;
-        });
-      }),
-    );
-  }
-}
-
-class TaskCheckbox extends StatelessWidget {
-  const TaskCheckbox(this.stateIsChecked, this.toggleState);
-
-  final bool stateIsChecked;
-  final Function(bool?)? toggleState;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: Colors.pinkAccent,
-      value: stateIsChecked,
-      onChanged: toggleState,
+      trailing: Checkbox(
+        activeColor: Colors.pinkAccent,
+        value: isChecked,
+        onChanged: checkboxCallback,
+      ),
+      onLongPress: longPress,
     );
   }
 }

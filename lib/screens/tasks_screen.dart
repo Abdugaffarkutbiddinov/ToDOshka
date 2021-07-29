@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoshka/models/task.dart';
+import 'package:todoshka/models/task_data.dart';
 import 'package:todoshka/screens/add_task_screen.dart';
 import 'package:todoshka/widgets/list_tasks.dart';
 
 class TasksScreen extends StatelessWidget {
-  bool? _checked = false;
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.pinkAccent,
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.pinkAccent,
           onPressed: () {
-            showModalBottomSheet(context: context, builder:  (context) => AddTaskScreen());
+            showModalBottomSheet(
+                context: context, builder: (context) => AddTaskScreen());
           },
           child: Icon(Icons.add)),
       body: Column(
@@ -44,7 +45,7 @@ class TasksScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '12 tasks',
+                  '${Provider.of<TaskData>(context).get()} tasks',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 )
               ],
@@ -57,11 +58,10 @@ class TasksScreen extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0))),
-            child:  ListOfTasks(),
+            child: ListOfTasks(),
           ))
         ],
       ),
     );
   }
 }
-
